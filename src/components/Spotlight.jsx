@@ -1,6 +1,7 @@
 import Icon from "./Icon";
 
-export default function Spotlight() {
+export default function Spotlight({ achievements }) {
+  const aboveTarget = achievements.tasksCompleted > achievements.deptAverage;
   return (
     <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-lg">
       <div className="bg-surface-container rounded-xl p-lg flex items-center gap-lg border border-outline-variant">
@@ -12,8 +13,9 @@ export default function Spotlight() {
             Pencapaian Minggu Ini
           </h4>
           <p className="text-body-md text-on-surface-variant">
-            Anda telah menyelesaikan 12 tugas, melampaui target rata-rata
-            departemen.
+            Anda menyelesaikan {achievements.tasksCompleted} tugas,{" "}
+            {aboveTarget ? "melampaui" : "mencapai"} target rata-rata departemen (
+            {achievements.deptAverage}).
           </p>
         </div>
       </div>

@@ -1,37 +1,6 @@
 import Icon from "./Icon";
 
-const reports = [
-  {
-    title: "Integrasi API Gateway Payment",
-    category: "Development",
-    time: "2 jam yang lalu",
-    status: "Menunggu",
-    badge: "bg-[#FEF3C7] text-[#92400E]",
-  },
-  {
-    title: "Dokumentasi System Architecture",
-    category: "Technical Writing",
-    time: "Kemarin, 16:30",
-    status: "Diterima",
-    badge: "bg-[#D1FAE5] text-[#065F46]",
-  },
-  {
-    title: "Uji Coba Modul HRIS Baru",
-    category: "QA Testing",
-    time: "18 Okt 2024",
-    status: "Diterima",
-    badge: "bg-[#D1FAE5] text-[#065F46]",
-  },
-  {
-    title: "Refactoring Database Migrations",
-    category: "DevOps",
-    time: "17 Okt 2024",
-    status: "Direvisi",
-    badge: "bg-[#DBEAFE] text-[#1E40AF]",
-  },
-];
-
-export default function ReportTable() {
+export default function ReportTable({ reports }) {
   return (
     <div className="col-span-12 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
       <div className="p-lg border-b border-outline-variant flex justify-between items-center">
@@ -52,21 +21,29 @@ export default function ReportTable() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-surface-container-low border-b border-outline-variant">
-              {["Judul Tugas", "Kategori", "Waktu Submit", "Status", "Aksi"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="p-lg font-label-md text-outline uppercase tracking-wider"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
+              {["Judul Tugas", "Kategori", "Waktu Submit", "Status", "Aksi"].map((h) => (
+                <th
+                  key={h}
+                  className="p-lg font-label-md text-outline uppercase tracking-wider"
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant">
+            {reports.length === 0 && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="p-lg text-center font-body-md text-outline"
+                >
+                  Belum ada laporan.
+                </td>
+              </tr>
+            )}
             {reports.map((r) => (
-              <tr key={r.title} className="hover:bg-primary-fixed/5 transition-colors">
+              <tr key={r.id} className="hover:bg-primary-fixed/5 transition-colors">
                 <td className="p-lg font-body-md text-on-surface font-semibold">
                   {r.title}
                 </td>
