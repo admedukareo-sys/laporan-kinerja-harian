@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KinerjaKu - Dashboard Personal Pegawai</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#6ffbbe",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-tertiary-fixed-variant": "#802a00",
+                        "surface-container-low": "#f0f3ff",
+                        "tertiary-container": "#872d00",
+                        "tertiary-fixed-dim": "#ffb59a",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b8c4ff",
+                        "surface-container-highest": "#dce2f3",
+                        "tertiary-fixed": "#ffdbce",
+                        "inverse-on-surface": "#ebf1ff",
+                        "tertiary": "#611e00",
+                        "surface-dim": "#d3daea",
+                        "on-surface": "#151c27",
+                        "surface": "#f9f9ff",
+                        "on-secondary-container": "#00714d",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001453",
+                        "surface-container-high": "#e2e8f8",
+                        "on-background": "#151c27",
+                        "surface-container": "#e7eefe",
+                        "secondary-container": "#6cf8bb",
+                        "on-tertiary-container": "#ffa583",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-fixed": "#002113",
+                        "on-error-container": "#93000a",
+                        "background": "#f9f9ff",
+                        "inverse-surface": "#2a313d",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#173bab",
+                        "surface-tint": "#3755c3",
+                        "outline": "#757684",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#444653",
+                        "on-tertiary-fixed": "#380d00",
+                        "surface-variant": "#dce2f3",
+                        "primary": "#00288e",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#4edea3",
+                        "outline-variant": "#c4c5d5",
+                        "secondary": "#006c49",
+                        "primary-container": "#1e40af",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-container": "#a8b8ff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "margin": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .soft-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface-container-lowest border-r border-outline-variant w-64 z-20">
+<div class="p-lg flex flex-col gap-sm">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">KinerjaKu</h1>
+<p class="text-[10px] uppercase tracking-wider text-outline">Enterprise Performance</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-md mt-lg space-y-base">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">schedule</span>
+<span class="font-body-md">Absensi</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-body-md">Laporan</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md">Riwayat</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md">Tim Saya</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Manajemen</span>
+</a>
+</nav>
+<div class="p-lg">
+<button class="w-full bg-primary text-white py-md px-lg rounded-xl font-bold flex items-center justify-center gap-sm active:scale-95 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">timer</span>
+<span>Clock In Now</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 flex justify-between items-center px-lg z-10 bg-surface border-b border-outline-variant">
+<div class="flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-outline-variant" placeholder="Cari laporan atau tugas..." type="text"/>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex gap-sm">
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-low p-xs rounded-lg transition-all">
+<div class="text-right hidden lg:block">
+<p class="font-label-md text-on-surface">Budi Santoso</p>
+<p class="text-[10px] text-outline">Senior Developer</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="A professional headshot of a smiling Indonesian man in his 30s wearing a clean white office shirt. He is set against a blurred corporate office background with soft daylighting and a clean, high-end professional aesthetic that fits a modern enterprise software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2cVr1pgaIUPd8la9AQdL1D8NacUyTPYUWvTPPsiUoRaRArjGz02LQ_Wo1JQifBJbJt89kjEloS3KhcRI3qU6uSw388j1zJsKuK_mFITj28ru4Hqv8yFyVBXB2nNv_7TclMz4ZKcC5RbtbkL5Yd9E0FBulP3MXLafOpMlCZL5_CAavMivlmC2TylG84zYjlfCEK5Xrzjx--Xy786EJzXFRESsqSwA7pXn0Pk2J4VWjW4qD8gr-wKuw"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="pt-24 px-xl pb-xl max-w-[1440px] mx-auto">
+<header class="mb-xl flex justify-between items-end">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Selamat Pagi, Budi!</h2>
+<p class="font-body-lg text-on-surface-variant mt-xs">Berikut adalah ringkasan performa dan tugas Anda hari ini.</p>
+</div>
+<button class="bg-primary text-white px-lg py-md rounded-xl font-bold flex items-center gap-sm hover:bg-primary-container transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Buat Laporan Baru</span>
+</button>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Stat Cards -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Jam Kerja -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-md">
+<span class="text-outline font-label-md uppercase tracking-tight">Jam Kerja</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed/30 p-xs rounded-lg">laps</span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface">40 <span class="text-body-md font-normal text-outline">jam/minggu</span></p>
+</div>
+<div class="mt-lg">
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[80%] rounded-full"></div>
+</div>
+<p class="text-[11px] mt-xs text-outline">Target: 40 jam (80% tercapai)</p>
+</div>
+</div>
+<!-- Tugas Selesai -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-md">
+<span class="text-outline font-label-md uppercase tracking-tight">Tugas Selesai</span>
+<span class="material-symbols-outlined text-secondary bg-secondary-container/30 p-xs rounded-lg">task_alt</span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface">85%</p>
+</div>
+<div class="mt-lg flex items-center gap-xs text-on-secondary-container bg-secondary-container/20 px-sm py-xs rounded w-fit">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span class="text-[11px] font-bold">+5% vs bulan lalu</span>
+</div>
+</div>
+<!-- Pengingat Laporan -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-md">
+<span class="text-outline font-label-md uppercase tracking-tight">Pengingat Laporan</span>
+<span class="material-symbols-outlined text-error bg-error-container/30 p-xs rounded-lg">notification_important</span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface">3 <span class="text-body-md font-normal text-outline">belum submit</span></p>
+</div>
+<div class="mt-lg">
+<button class="text-primary font-label-md flex items-center gap-xs hover:underline">
+                                Lihat Semua <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Clock In Widget -->
+<div class="col-span-12 lg:col-span-4 bg-primary text-white p-lg rounded-2xl shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+<div class="relative z-10">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm opacity-80">Absensi Cepat</h3>
+<p class="text-display-lg font-display-lg mt-xs" id="current-time">08:45:12</p>
+<p class="text-body-md opacity-70" id="current-date">Senin, 21 Oktober 2024</p>
+</div>
+<span class="material-symbols-outlined text-[40px] opacity-20">schedule</span>
+</div>
+</div>
+<div class="relative z-10 mt-xl flex gap-md">
+<button class="flex-1 bg-white text-primary py-md rounded-xl font-bold hover:bg-primary-fixed transition-all active:scale-95">Clock In</button>
+<button class="flex-1 bg-white/10 border border-white/30 text-white py-md rounded-xl font-bold hover:bg-white/20 transition-all active:scale-95">Clock Out</button>
+</div>
+<!-- Decorative background pattern -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute -left-12 -top-12 w-32 h-32 bg-primary-container rounded-full blur-2xl"></div>
+</div>
+<!-- Laporan Terkini Table Card -->
+<div class="col-span-12 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Daftar Laporan Terkini</h3>
+<div class="flex gap-sm">
+<button class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Filter</button>
+<button class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Ekspor PDF</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-lg font-label-md text-outline uppercase tracking-wider">Judul Tugas</th>
+<th class="p-lg font-label-md text-outline uppercase tracking-wider">Kategori</th>
+<th class="p-lg font-label-md text-outline uppercase tracking-wider">Waktu Submit</th>
+<th class="p-lg font-label-md text-outline uppercase tracking-wider">Status</th>
+<th class="p-lg font-label-md text-outline uppercase tracking-wider">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-primary-fixed/5 transition-colors">
+<td class="p-lg font-body-md text-on-surface font-semibold">Integrasi API Gateway Payment</td>
+<td class="p-lg font-body-md text-on-surface-variant">Development</td>
+<td class="p-lg font-body-md text-on-surface-variant">2 jam yang lalu</td>
+<td class="p-lg">
+<span class="bg-[#FEF3C7] text-[#92400E] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Menunggu</span>
+</td>
+<td class="p-lg">
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-primary-fixed/5 transition-colors">
+<td class="p-lg font-body-md text-on-surface font-semibold">Dokumentasi System Architecture</td>
+<td class="p-lg font-body-md text-on-surface-variant">Technical Writing</td>
+<td class="p-lg font-body-md text-on-surface-variant">Kemarin, 16:30</td>
+<td class="p-lg">
+<span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
+</td>
+<td class="p-lg">
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-primary-fixed/5 transition-colors">
+<td class="p-lg font-body-md text-on-surface font-semibold">Uji Coba Modul HRIS Baru</td>
+<td class="p-lg font-body-md text-on-surface-variant">QA Testing</td>
+<td class="p-lg font-body-md text-on-surface-variant">18 Okt 2024</td>
+<td class="p-lg">
+<span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
+</td>
+<td class="p-lg">
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-primary-fixed/5 transition-colors">
+<td class="p-lg font-body-md text-on-surface font-semibold">Refactoring Database Migrations</td>
+<td class="p-lg font-body-md text-on-surface-variant">DevOps</td>
+<td class="p-lg font-body-md text-on-surface-variant">17 Okt 2024</td>
+<td class="p-lg">
+<span class="bg-[#DBEAFE] text-[#1E40AF] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Direvisi</span>
+</td>
+<td class="p-lg">
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-lowest border-t border-outline-variant flex justify-center">
+<button class="text-primary font-label-md flex items-center gap-xs hover:underline">
+                            Lihat Semua Riwayat Laporan <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Task Spotlight Section -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="bg-surface-container rounded-xl p-lg flex items-center gap-lg border border-outline-variant">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[32px]">emoji_events</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Pencapaian Minggu Ini</h4>
+<p class="text-body-md text-on-surface-variant">Anda telah menyelesaikan 12 tugas, melampaui target rata-rata departemen.</p>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-lg flex items-center gap-lg border border-outline-variant">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[32px]">lightbulb</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Tips Performa</h4>
+<p class="text-body-md text-on-surface-variant">Gunakan fitur "Auto-Draft" untuk memudahkan pembuatan laporan harian Anda.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Update Time script
+        function updateTime() {
+            const timeElement = document.getElementById('current-time');
+            const dateElement = document.getElementById('current-date');
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+
+            if (timeElement) timeElement.textContent = timeString;
+            if (dateElement) dateElement.textContent = dateString;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>
