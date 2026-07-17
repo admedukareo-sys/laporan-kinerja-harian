@@ -369,35 +369,301 @@
 </div>
 </main>
 <script>
-        // Update Time script
+        // ===================== Update Time =====================
         function updateTime() {
             const timeElement = document.getElementById('current-time');
             const dateElement = document.getElementById('current-date');
-            
+
             const now = new Date();
             const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-            
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const dateString = now.toLocaleDateString('id-ID', options);
 
             if (timeElement) timeElement.textContent = timeString;
             if (dateElement) dateElement.textContent = dateString;
         }
-
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Micro-interactions
+        // ===================== Micro-interactions =====================
         document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('mousedown', () => {
-                button.classList.add('scale-95');
+            button.addEventListener('mousedown', () => button.classList.add('scale-95'));
+            button.addEventListener('mouseup', () => button.classList.remove('scale-95'));
+            button.addEventListener('mouseleave', () => button.classList.remove('scale-95'));
+        });
+
+        // ===================== Toast system =====================
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-sm';
+                document.body.appendChild(container);
+            }
+            const colors = {
+                info: 'bg-surface-container-highest text-on-surface border-outline-variant',
+                success: 'bg-[#D1FAE5] text-[#065F46] border-[#065F46]/20',
+                error: 'bg-error-container text-on-error-container border-error/20'
+            };
+            const toast = document.createElement('div');
+            toast.className = 'px-md py-sm rounded-xl border shadow-lg font-body-md flex items-center gap-sm transition-all duration-300 ' + (colors[type] || colors.info);
+            toast.innerHTML = '<span class="material-symbols-outlined text-[18px]">info</span><span>' + message + '</span>';
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('opacity-100', 'translate-y-0'));
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // ===================== Modal system =====================
+        function openModal(title, bodyHTML) {
+            closeModal();
+            const overlay = document.createElement('div');
+            overlay.id = 'modal-overlay';
+            overlay.className = 'fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-md';
+            overlay.innerHTML =
+                '<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-xl w-full max-w-md overflow-hidden">' +
+                    '<div class="flex items-center justify-between p-lg border-b border-outline-variant">' +
+                        '<h3 class="font-headline-sm text-headline-sm text-on-surface">' + title + '</h3>' +
+                        '<button data-close-modal class="p-sm rounded-full hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>' +
+                    '</div>' +
+                    '<div class="p-lg">' + bodyHTML + '</div>' +
+                '</div>';
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay || e.target.hasAttribute('data-close-modal') || e.target.closest('[data-close-modal]')) closeModal();
             });
-            button.addEventListener('mouseup', () => {
-                button.classList.remove('scale-95');
-            });
-            button.addEventListener('mouseleave', () => {
-                button.classList.remove('scale-95');
+        }
+        function closeModal() {
+            const m = document.getElementById('modal-overlay');
+            if (m) m.remove();
+        }
+
+        // ===================== Attendance state =====================
+        let clockedIn = false;
+        function setClockedIn(state) {
+            clockedIn = state;
+            const widget = document.querySelector('[data-action="clock-in"]');
+            const widgetOut = document.querySelector('[data-action="clock-out"]');
+            if (state) {
+                widget.classList.add('opacity-50', 'pointer-events-none');
+                widgetOut.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                widget.classList.remove('opacity-50', 'pointer-events-none');
+                widgetOut.classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+        setClockedIn(false);
+
+        // ===================== Navigation =====================
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => {
+                    l.classList.remove('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-surface-container-low');
+                    l.classList.add('text-on-surface-variant');
+                });
+                link.classList.add('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-surface-container-low');
+                link.classList.remove('text-on-surface-variant');
+                const name = link.getAttribute('data-nav');
+                showToast('Membuka halaman ' + name, 'info');
             });
         });
+
+        // ===================== Action dispatcher =====================
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-action]');
+            if (!el) return;
+            const action = el.getAttribute('data-action');
+
+            switch (action) {
+                case 'clock-in-now':
+                case 'clock-in': {
+                    if (clockedIn) { showToast('Anda sudah clock in', 'info'); break; }
+                    setClockedIn(true);
+                    showToast('Clock In berhasil pada ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }), 'success');
+                    break;
+                }
+                case 'clock-out': {
+                    if (!clockedIn) { showToast('Anda belum clock in', 'error'); break; }
+                    setClockedIn(false);
+                    showToast('Clock Out berhasil. Sampai jumpa besok!', 'success');
+                    break;
+                }
+                case 'notifications': {
+                    openModal('Notifikasi',
+                        '<div class="space-y-sm font-body-md text-on-surface-variant">' +
+                        '<div class="flex gap-sm items-start"><span class="material-symbols-outlined text-error">notification_important</span><span>3 laporan belum di-submit minggu ini.</span></div>' +
+                        '<div class="flex gap-sm items-start"><span class="material-symbols-outlined text-primary">task_alt</span><span>Tugas "Review PR Tim Frontend" selesai.</span></div>' +
+                        '<div class="flex gap-sm items-start"><span class="material-symbols-outlined text-secondary">emoji_events</span><span>Anda melampaui target departemen!</span></div>' +
+                        '</div>');
+                    break;
+                }
+                case 'help': {
+                    openModal('Bantuan',
+                        '<p class="font-body-md text-on-surface-variant">Butuh bantuan? Hubungi tim HRIS di <span class="font-semibold text-on-surface">hris@perusahaan.id</span> atau buka panduan internal.</p>' +
+                        '<div class="mt-md flex justify-end"><button data-close-modal class="bg-primary text-white px-md py-sm rounded-lg font-bold">Mengerti</button></div>');
+                    break;
+                }
+                case 'open-settings': {
+                    openModal('Pengaturan',
+                        '<div class="space-y-md font-body-md text-on-surface-variant">' +
+                        '<label class="flex items-center justify-between"><span>Tema Gelap</span><input type="checkbox" id="set-dark" class="w-5 h-5 accent-primary"/></label>' +
+                        '<label class="flex items-center justify-between"><span>Notifikasi Email</span><input type="checkbox" checked class="w-5 h-5 accent-primary"/></label>' +
+                        '<label class="flex items-center justify-between"><span>Bahasa</span><select class="border border-outline-variant rounded-lg px-sm py-xs"><option>Indonesia</option><option>English</option></select></label>' +
+                        '</div>' +
+                        '<div class="mt-md flex justify-end"><button data-close-modal class="bg-primary text-white px-md py-sm rounded-lg font-bold">Simpan</button></div>');
+                    const dark = document.getElementById('set-dark');
+                    if (dark) dark.addEventListener('change', () => {
+                        document.documentElement.classList.toggle('dark', dark.checked);
+                    });
+                    break;
+                }
+                case 'profile': {
+                    openModal('Profil Saya',
+                        '<div class="flex items-center gap-md">' +
+                        '<img class="w-14 h-14 rounded-full border-2 border-primary-fixed" alt="Profil" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2cVr1pgaIUPd8la9AQdL1D8NacUyTPYUWvTPPsiUoRaRArjGz02LQ_Wo1JQifBJbJt89kjEloS3KhcRI3qU6uSw388j1zJsKuK_mFITj28ru4Hqv8yFyVBXB2nNv_7TclMz4ZKcC5RbtbkL5Yd9E0FBulP3MXLafOpMlCZL5_CAavMivlmC2TylG84zYjlfCEK5Xrzjx--Xy786EJzXFRESsqSwA7pXn0Pk2J4VWjW4qD8gr-wKuw"/>' +
+                        '<div><p class="font-headline-sm text-headline-sm text-on-surface">Budi Santoso</p><p class="text-[11px] text-outline">Senior Developer</p></div>' +
+                        '</div>' +
+                        '<div class="mt-md flex flex-col gap-sm">' +
+                        '<button data-close-modal class="w-full text-left px-md py-sm rounded-lg hover:bg-surface-container font-body-md text-on-surface">Edit Profil</button>' +
+                        '<button data-close-modal class="w-full text-left px-md py-sm rounded-lg hover:bg-surface-container font-body-md text-on-surface">Ubah Kata Sandi</button>' +
+                        '<button data-close-modal class="w-full text-left px-md py-sm rounded-lg hover:bg-error-container font-body-md text-error">Keluar</button>' +
+                        '</div>');
+                    break;
+                }
+                case 'new-report': {
+                    openModal('Buat Laporan Baru',
+                        '<form id="report-form" class="space-y-md">' +
+                        '<div><label class="font-label-md text-on-surface-variant">Judul Tugas</label><input required name="title" class="w-full mt-xs border border-outline-variant rounded-lg px-md py-sm font-body-md" placeholder="Mis. Integrasi API"/></div>' +
+                        '<div><label class="font-label-md text-on-surface-variant">Kategori</label><select name="category" class="w-full mt-xs border border-outline-variant rounded-lg px-md py-sm font-body-md"><option>Development</option><option>Technical Writing</option><option>QA Testing</option><option>DevOps</option><option>Reporting</option></select></div>' +
+                        '<div class="flex justify-end gap-sm pt-sm"><button type="button" data-close-modal class="px-md py-sm rounded-lg border border-outline-variant font-body-md text-on-surface-variant">Batal</button><button type="submit" class="bg-primary text-white px-md py-sm rounded-lg font-bold">Simpan</button></div>' +
+                        '</form>');
+                    document.getElementById('report-form').addEventListener('submit', (ev) => {
+                        ev.preventDefault();
+                        const fd = new FormData(ev.target);
+                        addReportRow(fd.get('title'), fd.get('category'));
+                        closeModal();
+                        showToast('Laporan berhasil ditambahkan', 'success');
+                    });
+                    break;
+                }
+                case 'scroll-reports': {
+                    document.getElementById('report-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    break;
+                }
+                case 'view-report': {
+                    const row = el.closest('tr');
+                    const d = row.dataset;
+                    openModal('Detail Laporan',
+                        '<div class="space-y-sm font-body-md text-on-surface-variant">' +
+                        '<p><span class="font-semibold text-on-surface">Judul:</span> ' + d.title + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Kategori:</span> ' + d.category + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Waktu:</span> ' + d.time + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Status:</span> ' + d.status + '</p>' +
+                        '</div>' +
+                        '<div class="mt-md flex justify-end"><button data-close-modal class="bg-primary text-white px-md py-sm rounded-lg font-bold">Tutup</button></div>');
+                    break;
+                }
+                case 'filter': {
+                    const opts = ['Semua', 'Menunggu', 'Diterima', 'Direvisi'];
+                    openModal('Filter Laporan',
+                        '<div class="space-y-sm" id="filter-opts">' +
+                        opts.map(o => '<button data-filter="' + o + '" class="w-full text-left px-md py-sm rounded-lg hover:bg-surface-container font-body-md text-on-surface">' + o + '</button>').join('') +
+                        '</div>');
+                    document.getElementById('filter-opts').addEventListener('click', (ev) => {
+                        const b = ev.target.closest('[data-filter]');
+                        if (!b) return;
+                        const val = b.getAttribute('data-filter');
+                        let shown = 0;
+                        document.querySelectorAll('#report-tbody tr').forEach(tr => {
+                            const match = val === 'Semua' || tr.dataset.status === val;
+                            tr.style.display = match ? '' : 'none';
+                            if (match) shown++;
+                        });
+                        closeModal();
+                        showToast(val === 'Semua' ? 'Menampilkan semua laporan' : ('Filter: ' + val + ' (' + shown + ')'), 'info');
+                    });
+                    break;
+                }
+                case 'export-pdf': {
+                    showToast('Mengekspor PDF…', 'info');
+                    setTimeout(() => window.print(), 400);
+                    break;
+                }
+                case 'toggle-history': {
+                    const tbody = document.getElementById('report-tbody');
+                    const extra = [
+                        ['Audit Akses Database', 'DevOps', '15 Okt 2024', 'Diterima', 'bg-[#D1FAE5] text-[#065F46]'],
+                        ['Review PR Tim Frontend', 'Development', '14 Okt 2024', 'Direvisi', 'bg-[#DBEAFE] text-[#1E40AF]'],
+                        ['Perbaikan Bug Login SSO', 'Development', '12 Okt 2024', 'Diterima', 'bg-[#D1FAE5] text-[#065F46]']
+                    ];
+                    const expanded = el.getAttribute('data-expanded') === '1';
+                    if (expanded) {
+                        extra.forEach(([t]) => {
+                            const rows = [...tbody.querySelectorAll('tr')];
+                            const r = rows.find(x => x.dataset.title === t);
+                            if (r) r.remove();
+                        });
+                        el.setAttribute('data-expanded', '0');
+                        el.querySelector('.material-symbols-outlined').textContent = 'expand_more';
+                        showToast('Riwayat disembunyikan', 'info');
+                    } else {
+                        extra.forEach(([t, c, time, status, badge]) => {
+                            const tr = document.createElement('tr');
+                            tr.className = 'hover:bg-primary-fixed/5 transition-colors';
+                            tr.dataset.title = t; tr.dataset.category = c; tr.dataset.time = time; tr.dataset.status = status; tr.dataset.badge = badge;
+                            tr.innerHTML =
+                                '<td class="p-lg font-body-md text-on-surface font-semibold">' + t + '</td>' +
+                                '<td class="p-lg font-body-md text-on-surface-variant">' + c + '</td>' +
+                                '<td class="p-lg font-body-md text-on-surface-variant">' + time + '</td>' +
+                                '<td class="p-lg"><span class="' + badge + ' px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">' + status + '</span></td>' +
+                                '<td class="p-lg"><button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button></td>';
+                            tbody.appendChild(tr);
+                        });
+                        el.setAttribute('data-expanded', '1');
+                        el.querySelector('.material-symbols-outlined').textContent = 'expand_less';
+                        showToast('Menampilkan seluruh riwayat', 'info');
+                    }
+                    break;
+                }
+            }
+        });
+
+        // ===================== Add report row helper =====================
+        function addReportRow(title, category) {
+            const tbody = document.getElementById('report-tbody');
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-primary-fixed/5 transition-colors';
+            tr.dataset.title = title;
+            tr.dataset.category = category;
+            tr.dataset.time = 'Baru saja';
+            tr.dataset.status = 'Menunggu';
+            tr.dataset.badge = 'bg-[#FEF3C7] text-[#92400E]';
+            tr.innerHTML =
+                '<td class="p-lg font-body-md text-on-surface font-semibold">' + title + '</td>' +
+                '<td class="p-lg font-body-md text-on-surface-variant">' + category + '</td>' +
+                '<td class="p-lg font-body-md text-on-surface-variant">Baru saja</td>' +
+                '<td class="p-lg"><span class="bg-[#FEF3C7] text-[#92400E] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Menunggu</span></td>' +
+                '<td class="p-lg"><button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button></td>';
+            tbody.prepend(tr);
+            document.getElementById('report-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ===================== Search (filter table) =====================
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const q = searchInput.value.toLowerCase();
+                document.querySelectorAll('#report-tbody tr').forEach(tr => {
+                    const text = (tr.dataset.title + ' ' + tr.dataset.category).toLowerCase();
+                    tr.style.display = text.includes(q) ? '' : 'none';
+                });
+            });
+        }
     </script>
 </body></html>
