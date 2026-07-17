@@ -111,6 +111,33 @@ create policy "Attendance update own" on public.attendance
   for update using (auth.uid() = user_id);
 
 -- ============================================================
+-- Demo bypass (hanya untuk prototyping halaman statis tanpa auth)
+-- Mengizinkan anon key mengakses baris milik CURRENT_USER_ID.
+-- HAPUS di production dan gunakan auth nyata (auth.uid()).
+-- ============================================================
+do $$
+declare
+  demo_user uuid := 'e9b6f1c2-2a3b-4c5d-8e6f-1234567890ab';
+begin
+  -- profiles
+  drop policy if exists "Demo profiles access" on public.profiles;
+  create policy "Demo profiles access" on public.profiles
+    for all using (id = demo_user) with check (id = demo_user);
+  -- reports
+  drop policy if exists "Demo reports access" on public.reports;
+  create policy "Demo reports access" on public.reports
+    for all using (user_id = demo_user) with check (user_id = demo_user);
+  -- tasks
+  drop policy if exists "Demo tasks access" on public.tasks;
+  create policy "Demo tasks access" on public.tasks
+    for all using (user_id = demo_user) with check (user_id = demo_user);
+  -- attendance
+  drop policy if exists "Demo attendance access" on public.attendance;
+  create policy "Demo attendance access" on public.attendance
+    for all using (user_id = demo_user) with check (user_id = demo_user);
+end $$;
+
+-- ============================================================
 -- Seed data (demo)
 -- NOTE: user_id di bawah harus diganti dengan auth.uid() asli
 --       atau disesuaikan dengan CURRENT_USER_ID di src/lib/supabase.js

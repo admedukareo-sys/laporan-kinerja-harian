@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>KinerjaKu - Dashboard Personal Pegawai</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -241,7 +242,7 @@
 <span class="text-outline font-label-md uppercase tracking-tight">Pengingat Laporan</span>
 <span class="material-symbols-outlined text-error bg-error-container/30 p-xs rounded-lg">notification_important</span>
 </div>
-<p class="font-headline-md text-headline-md text-on-surface">3 <span class="text-body-md font-normal text-outline">belum submit</span></p>
+<p id="pending-count" class="font-headline-md text-headline-md text-on-surface">3 <span class="text-body-md font-normal text-outline">belum submit</span></p>
 </div>
 <div class="mt-lg">
 <button data-action="scroll-reports" class="text-primary font-label-md flex items-center gap-xs hover:underline">
@@ -291,50 +292,7 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant" id="report-tbody">
-<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Integrasi API Gateway Payment" data-category="Development" data-time="2 jam yang lalu" data-status="Menunggu" data-badge="bg-[#FEF3C7] text-[#92400E]">
-<td class="p-lg font-body-md text-on-surface font-semibold">Integrasi API Gateway Payment</td>
-<td class="p-lg font-body-md text-on-surface-variant">Development</td>
-<td class="p-lg font-body-md text-on-surface-variant">2 jam yang lalu</td>
-<td class="p-lg">
-<span class="bg-[#FEF3C7] text-[#92400E] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Menunggu</span>
-</td>
-<td class="p-lg">
-<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
-</td>
-</tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Dokumentasi System Architecture" data-category="Technical Writing" data-time="Kemarin, 16:30" data-status="Diterima" data-badge="bg-[#D1FAE5] text-[#065F46]">
-<td class="p-lg font-body-md text-on-surface font-semibold">Dokumentasi System Architecture</td>
-<td class="p-lg font-body-md text-on-surface-variant">Technical Writing</td>
-<td class="p-lg font-body-md text-on-surface-variant">Kemarin, 16:30</td>
-<td class="p-lg">
-<span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
-</td>
-<td class="p-lg">
-<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
-</td>
-</tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Uji Coba Modul HRIS Baru" data-category="QA Testing" data-time="18 Okt 2024" data-status="Diterima" data-badge="bg-[#D1FAE5] text-[#065F46]">
-<td class="p-lg font-body-md text-on-surface font-semibold">Uji Coba Modul HRIS Baru</td>
-<td class="p-lg font-body-md text-on-surface-variant">QA Testing</td>
-<td class="p-lg font-body-md text-on-surface-variant">18 Okt 2024</td>
-<td class="p-lg">
-<span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
-</td>
-<td class="p-lg">
-<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
-</td>
-</tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Refactoring Database Migrations" data-category="DevOps" data-time="17 Okt 2024" data-status="Direvisi" data-badge="bg-[#DBEAFE] text-[#1E40AF]">
-<td class="p-lg font-body-md text-on-surface font-semibold">Refactoring Database Migrations</td>
-<td class="p-lg font-body-md text-on-surface-variant">DevOps</td>
-<td class="p-lg font-body-md text-on-surface-variant">17 Okt 2024</td>
-<td class="p-lg">
-<span class="bg-[#DBEAFE] text-[#1E40AF] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Direvisi</span>
-</td>
-<td class="p-lg">
-<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
-</td>
-</tr>
+<tr><td colspan="5" class="p-lg text-center font-body-md text-outline">Memuat laporan dari Supabase…</td></tr>
 </tbody>
 </table>
 </div>
@@ -392,6 +350,89 @@
             button.addEventListener('mouseleave', () => button.classList.remove('scale-95'));
         });
 
+        // ===================== Supabase client =====================
+        const SUPABASE_URL = 'https://wdtbrlwmikjtkdgxytlp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndkdGJybHdtaWtqdGtkZ3h5dGxwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMjEwOTAsImV4cCI6MjA5OTc5NzA5MH0.u3MySgiTEPcBaxHBtKpWQrnwPetvcSHi3QUp36Hf2UA';
+        const CURRENT_USER_ID = 'e9b6f1c2-2a3b-4c5d-8e6f-1234567890ab';
+        const STATUS_LABEL = { menunggu: 'Menunggu', diterima: 'Diterima', direvisi: 'Direvisi', draft: 'Draft' };
+        const STATUS_BADGE = {
+            menunggu: 'bg-[#FEF3C7] text-[#92400E]',
+            diterima: 'bg-[#D1FAE5] text-[#065F46]',
+            direvisi: 'bg-[#DBEAFE] text-[#1E40AF]',
+            draft: 'bg-[#E5E7EB] text-[#374151]'
+        };
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let allReports = [];
+        let clockedIn = false;
+
+        function escapeHTML(s) {
+            return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+        function timeAgo(iso) {
+            const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+            if (diff < 3600) return Math.max(1, Math.floor(diff / 60)) + ' menit yang lalu';
+            if (diff < 86400) return Math.floor(diff / 3600) + ' jam yang lalu';
+            const days = Math.floor(diff / 86400);
+            return days === 1 ? 'Kemarin' : days + ' hari lalu';
+        }
+        function fmtDate(iso) {
+            return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        function renderReports(list) {
+            const tbody = document.getElementById('report-tbody');
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-lg text-center font-body-md text-outline">Belum ada laporan.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(r => {
+                const badge = STATUS_BADGE[r.status] || STATUS_BADGE.draft;
+                return '<tr class="hover:bg-primary-fixed/5 transition-colors" data-id="' + r.id + '" data-title="' + escapeHTML(r.title) + '" data-category="' + escapeHTML(r.category) + '" data-time="' + escapeHTML(timeAgo(r.submitted_at)) + '" data-status="' + r.status + '">' +
+                    '<td class="p-lg font-body-md text-on-surface font-semibold">' + escapeHTML(r.title) + '</td>' +
+                    '<td class="p-lg font-body-md text-on-surface-variant">' + escapeHTML(r.category) + '</td>' +
+                    '<td class="p-lg font-body-md text-on-surface-variant">' + escapeHTML(timeAgo(r.submitted_at)) + '</td>' +
+                    '<td class="p-lg"><span class="' + badge + ' px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">' + escapeHTML(STATUS_LABEL[r.status] || r.status) + '</span></td>' +
+                    '<td class="p-lg"><button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button></td>' +
+                    '</tr>';
+            }).join('');
+        }
+        async function loadReports() {
+            const { data, error } = await supabase
+                .from('reports')
+                .select('*')
+                .eq('user_id', CURRENT_USER_ID)
+                .order('submitted_at', { ascending: false });
+            if (error) { showToast('Gagal memuat laporan: ' + error.message, 'error'); return; }
+            allReports = data || [];
+            renderReports(allReports);
+            const pending = allReports.filter(r => r.status === 'menunggu').length;
+            const pendingEl = document.getElementById('pending-count');
+            if (pendingEl) pendingEl.innerHTML = pending + ' <span class="text-body-md font-normal text-outline">belum submit</span>';
+        }
+        async function loadProfile() {
+            const { data } = await supabase.from('profiles').select('*').eq('id', CURRENT_USER_ID).maybeSingle();
+            if (!data) return;
+            const name = data.full_name || 'Pengguna';
+            const role = data.role || 'Pegawai';
+            const greeting = document.querySelector('h2.text-display-lg');
+            if (greeting) greeting.textContent = 'Selamat Pagi, ' + name.split(' ')[0] + '!';
+            const topbar = document.querySelector('header .flex.items-center.gap-sm');
+            if (topbar) {
+                const nameEl = topbar.querySelector('p.font-label-md');
+                const roleEl = topbar.querySelector('p.text-\\[10px\\]');
+                if (nameEl) nameEl.textContent = name;
+                if (roleEl) roleEl.textContent = role;
+            }
+        }
+        async function loadAttendance() {
+            const today = new Date().toISOString().slice(0, 10);
+            const { data } = await supabase.from('attendance').select('*').eq('user_id', CURRENT_USER_ID).eq('work_date', today).maybeSingle();
+            if (data && data.clock_in && !data.clock_out) {
+                clockedIn = true;
+                setClockedIn(true);
+                showToast('Status: sudah clock in hari ini', 'info');
+            }
+        }
+
         // ===================== Toast system =====================
         function showToast(message, type = 'info') {
             let container = document.getElementById('toast-container');
@@ -443,7 +484,6 @@
         }
 
         // ===================== Attendance state =====================
-        let clockedIn = false;
         function setClockedIn(state) {
             clockedIn = state;
             const widget = document.querySelector('[data-action="clock-in"]');
@@ -475,7 +515,7 @@
         });
 
         // ===================== Action dispatcher =====================
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', async (e) => {
             const el = e.target.closest('[data-action]');
             if (!el) return;
             const action = el.getAttribute('data-action');
@@ -484,13 +524,29 @@
                 case 'clock-in-now':
                 case 'clock-in': {
                     if (clockedIn) { showToast('Anda sudah clock in', 'info'); break; }
-                    setClockedIn(true);
+                    const today = new Date().toISOString().slice(0, 10);
+                    const nowISO = new Date().toISOString();
+                    const { data: existing } = await supabase.from('attendance').select('id').eq('user_id', CURRENT_USER_ID).eq('work_date', today).maybeSingle();
+                    let res;
+                    if (existing) {
+                        res = await supabase.from('attendance').update({ clock_in: nowISO, clock_out: null }).eq('id', existing.id);
+                    } else {
+                        res = await supabase.from('attendance').insert({ user_id: CURRENT_USER_ID, clock_in: nowISO, work_date: today });
+                    }
+                    if (res.error) { showToast('Gagal clock in: ' + res.error.message, 'error'); break; }
+                    clockedIn = true; setClockedIn(true);
                     showToast('Clock In berhasil pada ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }), 'success');
                     break;
                 }
                 case 'clock-out': {
                     if (!clockedIn) { showToast('Anda belum clock in', 'error'); break; }
-                    setClockedIn(false);
+                    const today = new Date().toISOString().slice(0, 10);
+                    const { data: existing } = await supabase.from('attendance').select('id').eq('user_id', CURRENT_USER_ID).eq('work_date', today).maybeSingle();
+                    if (existing) {
+                        const { error } = await supabase.from('attendance').update({ clock_out: new Date().toISOString() }).eq('id', existing.id);
+                        if (error) { showToast('Gagal clock out: ' + error.message, 'error'); break; }
+                    }
+                    clockedIn = false; setClockedIn(false);
                     showToast('Clock Out berhasil. Sampai jumpa besok!', 'success');
                     break;
                 }
@@ -543,12 +599,19 @@
                         '<div><label class="font-label-md text-on-surface-variant">Kategori</label><select name="category" class="w-full mt-xs border border-outline-variant rounded-lg px-md py-sm font-body-md"><option>Development</option><option>Technical Writing</option><option>QA Testing</option><option>DevOps</option><option>Reporting</option></select></div>' +
                         '<div class="flex justify-end gap-sm pt-sm"><button type="button" data-close-modal class="px-md py-sm rounded-lg border border-outline-variant font-body-md text-on-surface-variant">Batal</button><button type="submit" class="bg-primary text-white px-md py-sm rounded-lg font-bold">Simpan</button></div>' +
                         '</form>');
-                    document.getElementById('report-form').addEventListener('submit', (ev) => {
+                    document.getElementById('report-form').addEventListener('submit', async (ev) => {
                         ev.preventDefault();
                         const fd = new FormData(ev.target);
-                        addReportRow(fd.get('title'), fd.get('category'));
+                        const { error } = await supabase.from('reports').insert({
+                            user_id: CURRENT_USER_ID,
+                            title: fd.get('title'),
+                            category: fd.get('category'),
+                            status: 'menunggu'
+                        });
+                        if (error) { showToast('Gagal menyimpan: ' + error.message, 'error'); return; }
                         closeModal();
                         showToast('Laporan berhasil ditambahkan', 'success');
+                        await loadReports();
                     });
                     break;
                 }
@@ -558,13 +621,16 @@
                 }
                 case 'view-report': {
                     const row = el.closest('tr');
-                    const d = row.dataset;
+                    const id = row.dataset.id;
+                    const { data, error } = await supabase.from('reports').select('*').eq('id', id).maybeSingle();
+                    const r = data || row.dataset;
+                    const status = STATUS_LABEL[r.status] || r.status;
                     openModal('Detail Laporan',
                         '<div class="space-y-sm font-body-md text-on-surface-variant">' +
-                        '<p><span class="font-semibold text-on-surface">Judul:</span> ' + d.title + '</p>' +
-                        '<p><span class="font-semibold text-on-surface">Kategori:</span> ' + d.category + '</p>' +
-                        '<p><span class="font-semibold text-on-surface">Waktu:</span> ' + d.time + '</p>' +
-                        '<p><span class="font-semibold text-on-surface">Status:</span> ' + d.status + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Judul:</span> ' + escapeHTML(r.title) + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Kategori:</span> ' + escapeHTML(r.category) + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Waktu:</span> ' + escapeHTML(r.submitted_at ? timeAgo(r.submitted_at) : r.time) + '</p>' +
+                        '<p><span class="font-semibold text-on-surface">Status:</span> ' + escapeHTML(status) + '</p>' +
                         '</div>' +
                         '<div class="mt-md flex justify-end"><button data-close-modal class="bg-primary text-white px-md py-sm rounded-lg font-bold">Tutup</button></div>');
                     break;
@@ -596,63 +662,22 @@
                     break;
                 }
                 case 'toggle-history': {
-                    const tbody = document.getElementById('report-tbody');
-                    const extra = [
-                        ['Audit Akses Database', 'DevOps', '15 Okt 2024', 'Diterima', 'bg-[#D1FAE5] text-[#065F46]'],
-                        ['Review PR Tim Frontend', 'Development', '14 Okt 2024', 'Direvisi', 'bg-[#DBEAFE] text-[#1E40AF]'],
-                        ['Perbaikan Bug Login SSO', 'Development', '12 Okt 2024', 'Diterima', 'bg-[#D1FAE5] text-[#065F46]']
-                    ];
                     const expanded = el.getAttribute('data-expanded') === '1';
                     if (expanded) {
-                        extra.forEach(([t]) => {
-                            const rows = [...tbody.querySelectorAll('tr')];
-                            const r = rows.find(x => x.dataset.title === t);
-                            if (r) r.remove();
-                        });
                         el.setAttribute('data-expanded', '0');
                         el.querySelector('.material-symbols-outlined').textContent = 'expand_more';
+                        renderReports(allReports.slice(0, 4));
                         showToast('Riwayat disembunyikan', 'info');
                     } else {
-                        extra.forEach(([t, c, time, status, badge]) => {
-                            const tr = document.createElement('tr');
-                            tr.className = 'hover:bg-primary-fixed/5 transition-colors';
-                            tr.dataset.title = t; tr.dataset.category = c; tr.dataset.time = time; tr.dataset.status = status; tr.dataset.badge = badge;
-                            tr.innerHTML =
-                                '<td class="p-lg font-body-md text-on-surface font-semibold">' + t + '</td>' +
-                                '<td class="p-lg font-body-md text-on-surface-variant">' + c + '</td>' +
-                                '<td class="p-lg font-body-md text-on-surface-variant">' + time + '</td>' +
-                                '<td class="p-lg"><span class="' + badge + ' px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">' + status + '</span></td>' +
-                                '<td class="p-lg"><button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button></td>';
-                            tbody.appendChild(tr);
-                        });
                         el.setAttribute('data-expanded', '1');
                         el.querySelector('.material-symbols-outlined').textContent = 'expand_less';
-                        showToast('Menampilkan seluruh riwayat', 'info');
+                        renderReports(allReports);
+                        showToast('Menampilkan seluruh riwayat (' + allReports.length + ')', 'info');
                     }
                     break;
                 }
             }
         });
-
-        // ===================== Add report row helper =====================
-        function addReportRow(title, category) {
-            const tbody = document.getElementById('report-tbody');
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-primary-fixed/5 transition-colors';
-            tr.dataset.title = title;
-            tr.dataset.category = category;
-            tr.dataset.time = 'Baru saja';
-            tr.dataset.status = 'Menunggu';
-            tr.dataset.badge = 'bg-[#FEF3C7] text-[#92400E]';
-            tr.innerHTML =
-                '<td class="p-lg font-body-md text-on-surface font-semibold">' + title + '</td>' +
-                '<td class="p-lg font-body-md text-on-surface-variant">' + category + '</td>' +
-                '<td class="p-lg font-body-md text-on-surface-variant">Baru saja</td>' +
-                '<td class="p-lg"><span class="bg-[#FEF3C7] text-[#92400E] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Menunggu</span></td>' +
-                '<td class="p-lg"><button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button></td>';
-            tbody.prepend(tr);
-            document.getElementById('report-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
 
         // ===================== Search (filter table) =====================
         const searchInput = document.getElementById('search-input');
@@ -660,10 +685,17 @@
             searchInput.addEventListener('input', () => {
                 const q = searchInput.value.toLowerCase();
                 document.querySelectorAll('#report-tbody tr').forEach(tr => {
-                    const text = (tr.dataset.title + ' ' + tr.dataset.category).toLowerCase();
+                    const text = ((tr.dataset.title || '') + ' ' + (tr.dataset.category || '')).toLowerCase();
                     tr.style.display = text.includes(q) ? '' : 'none';
                 });
             });
         }
+
+        // ===================== Init: load data from Supabase =====================
+        (async function init() {
+            await loadProfile();
+            await loadReports();
+            await loadAttendance();
+        })();
     </script>
 </body></html>
