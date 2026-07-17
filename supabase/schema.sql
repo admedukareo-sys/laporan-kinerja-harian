@@ -20,7 +20,7 @@ create table if not exists public.profiles (
 --    Sumber data untuk kartu "Pengingat Laporan" & tabel
 --    "Daftar Laporan Terkini".
 -- ------------------------------------------------------------
-create type report_status as enum ('menunggu', 'diterima', 'direvisi', 'draft');
+create type report_status as enum ('menunggu', 'diterima', 'direvisi', 'draft', 'ditolak');
 
 create table if not exists public.reports (
   id uuid primary key default gen_random_uuid(),
@@ -28,6 +28,10 @@ create table if not exists public.reports (
   title text not null,
   category text not null,
   status report_status not null default 'draft',
+  start_time time,
+  end_time time,
+  duration_hours numeric(5, 2),
+  attachment_url text,
   submitted_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
@@ -151,12 +155,14 @@ begin
   values (demo_user, 'Budi Santoso', 'Senior Developer', 40)
   on conflict (id) do nothing;
 
-  -- reports (tabel "Daftar Laporan Terkini")
-  insert into public.reports (user_id, title, category, status, submitted_at) values
-    (demo_user, 'Integrasi API Gateway Payment', 'Development', 'menunggu', now() - interval '2 hours'),
-    (demo_user, 'Dokumentasi System Architecture', 'Technical Writing', 'diterima', now() - interval '1 day' + interval '16 hours 30 minutes'),
-    (demo_user, 'Uji Coba Modul HRIS Baru', 'QA Testing', 'diterima', now() - interval '3 days'),
-    (demo_user, 'Refactoring Database Migrations', 'DevOps', 'direvisi', now() - interval '4 days');
+  -- reports (halaman Absensi & Laporan)
+  insert into public.reports (user_id, title, category, status, start_time, end_time, duration_hours, submitted_at) values
+    (demo_user, 'Penyusunan Rencana Strategis Q4', 'Rutin', 'diterima', '08:00', '12:00', 4, now() - interval '1 day' + interval '08:00'),
+    (demo_user, 'Review Data Analytics Penjualan', 'Proyek', 'menunggu', '13:00', '17:00', 4, now() - interval '1 day' + interval '13:00'),
+    (demo_user, 'Update SOP Procurement', 'Admin', 'direvisi', '09:00', '11:30', 2.5, now() - interval '2 days' + interval '09:00'),
+    (demo_user, 'Konsultasi Internal IT', 'Admin', 'ditolak', '14:00', '15:00', 1, now() - interval '3 days' + interval '14:00'),
+    (demo_user, 'Integrasi API Gateway Payment', 'Development', 'menunggu', '09:00', '11:00', 2, now() - interval '2 hours'),
+    (demo_user, 'Dokumentasi System Architecture', 'Technical Writing', 'diterima', '13:00', '15:30', 2.5, now() - interval '1 day');
 
   -- tasks (untuk stat "Tugas Selesai" & pengingat)
   insert into public.tasks (user_id, title, category, is_done, due_date) values
