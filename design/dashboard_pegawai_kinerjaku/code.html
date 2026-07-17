@@ -124,34 +124,34 @@
 </div>
 </div>
 </div>
-<nav class="flex-1 px-md mt-lg space-y-base">
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-low transition-colors duration-200" href="#">
+<nav class="flex-1 px-md mt-lg space-y-base" id="sidebar-nav">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-low transition-colors duration-200" href="#" data-nav="Dashboard">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-body-md">Dashboard</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#" data-nav="Absensi">
 <span class="material-symbols-outlined">schedule</span>
 <span class="font-body-md">Absensi</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#" data-nav="Laporan">
 <span class="material-symbols-outlined">edit_note</span>
 <span class="font-body-md">Laporan</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#" data-nav="Riwayat">
 <span class="material-symbols-outlined">history</span>
 <span class="font-body-md">Riwayat</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#" data-nav="Tim Saya">
 <span class="material-symbols-outlined">group</span>
 <span class="font-body-md">Tim Saya</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#">
+<a class="nav-link flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200" href="#" data-nav="Manajemen">
 <span class="material-symbols-outlined">settings</span>
 <span class="font-body-md">Manajemen</span>
 </a>
 </nav>
 <div class="p-lg">
-<button class="w-full bg-primary text-white py-md px-lg rounded-xl font-bold flex items-center justify-center gap-sm active:scale-95 transition-all shadow-lg shadow-primary/20">
+<button data-action="clock-in-now" class="w-full bg-primary text-white py-md px-lg rounded-xl font-bold flex items-center justify-center gap-sm active:scale-95 transition-all shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined">timer</span>
 <span>Clock In Now</span>
 </button>
@@ -163,27 +163,28 @@
 <header class="fixed top-0 right-0 left-64 h-16 flex justify-between items-center px-lg z-10 bg-surface border-b border-outline-variant">
 <div class="flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant w-96">
 <span class="material-symbols-outlined text-outline">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-outline-variant" placeholder="Cari laporan atau tugas..." type="text"/>
+<input id="search-input" class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-outline-variant" placeholder="Cari laporan atau tugas..." type="text"/>
 </div>
 <div class="flex items-center gap-md">
 <div class="flex gap-sm">
-<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<button data-action="notifications" class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all relative">
 <span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
 </button>
-<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<button data-action="help" class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
 <span class="material-symbols-outlined">help</span>
 </button>
-<button class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<button data-action="open-settings" class="p-sm text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
 <span class="material-symbols-outlined">settings</span>
 </button>
 </div>
 <div class="h-8 w-[1px] bg-outline-variant"></div>
-<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-low p-xs rounded-lg transition-all">
+<div data-action="profile" class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-low p-xs rounded-lg transition-all relative">
 <div class="text-right hidden lg:block">
 <p class="font-label-md text-on-surface">Budi Santoso</p>
 <p class="text-[10px] text-outline">Senior Developer</p>
 </div>
-<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="A professional headshot of a smiling Indonesian man in his 30s wearing a clean white office shirt. He is set against a blurred corporate office background with soft daylighting and a clean, high-end professional aesthetic that fits a modern enterprise software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2cVr1pgaIUPd8la9AQdL1D8NacUyTPYUWvTPPsiUoRaRArjGz02LQ_Wo1JQifBJbJt89kjEloS3KhcRI3qU6uSw388j1zJsKuK_mFITj28ru4Hqv8yFyVBXB2nNv_7TclMz4ZKcC5RbtbkL5Yd9E0FBulP3MXLafOpMlCZL5_CAavMivlmC2TylG84zYjlfCEK5Xrzjx--Xy786EJzXFRESsqSwA7pXn0Pk2J4VWjW4qD8gr-wKuw"/>
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" alt="Foto profil Budi Santoso" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2cVr1pgaIUPd8la9AQdL1D8NacUyTPYUWvTPPsiUoRaRArjGz02LQ_Wo1JQifBJbJt89kjEloS3KhcRI3qU6uSw388j1zJsKuK_mFITj28ru4Hqv8yFyVBXB2nNv_7TclMz4ZKcC5RbtbkL5Yd9E0FBulP3MXLafOpMlCZL5_CAavMivlmC2TylG84zYjlfCEK5Xrzjx--Xy786EJzXFRESsqSwA7pXn0Pk2J4VWjW4qD8gr-wKuw"/>
 </div>
 </div>
 </header>
@@ -194,7 +195,7 @@
 <h2 class="font-display-lg text-display-lg text-primary">Selamat Pagi, Budi!</h2>
 <p class="font-body-lg text-on-surface-variant mt-xs">Berikut adalah ringkasan performa dan tugas Anda hari ini.</p>
 </div>
-<button class="bg-primary text-white px-lg py-md rounded-xl font-bold flex items-center gap-sm hover:bg-primary-container transition-all active:scale-95 shadow-md">
+<button data-action="new-report" class="bg-primary text-white px-lg py-md rounded-xl font-bold flex items-center gap-sm hover:bg-primary-container transition-all active:scale-95 shadow-md">
 <span class="material-symbols-outlined">add_circle</span>
 <span>Buat Laporan Baru</span>
 </button>
@@ -243,7 +244,7 @@
 <p class="font-headline-md text-headline-md text-on-surface">3 <span class="text-body-md font-normal text-outline">belum submit</span></p>
 </div>
 <div class="mt-lg">
-<button class="text-primary font-label-md flex items-center gap-xs hover:underline">
+<button data-action="scroll-reports" class="text-primary font-label-md flex items-center gap-xs hover:underline">
                                 Lihat Semua <span class="material-symbols-outlined text-[16px]">chevron_right</span>
 </button>
 </div>
@@ -262,8 +263,8 @@
 </div>
 </div>
 <div class="relative z-10 mt-xl flex gap-md">
-<button class="flex-1 bg-white text-primary py-md rounded-xl font-bold hover:bg-primary-fixed transition-all active:scale-95">Clock In</button>
-<button class="flex-1 bg-white/10 border border-white/30 text-white py-md rounded-xl font-bold hover:bg-white/20 transition-all active:scale-95">Clock Out</button>
+<button data-action="clock-in" class="flex-1 bg-white text-primary py-md rounded-xl font-bold hover:bg-primary-fixed transition-all active:scale-95">Clock In</button>
+<button data-action="clock-out" class="flex-1 bg-white/10 border border-white/30 text-white py-md rounded-xl font-bold hover:bg-white/20 transition-all active:scale-95">Clock Out</button>
 </div>
 <!-- Decorative background pattern -->
 <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
@@ -274,8 +275,8 @@
 <div class="p-lg border-b border-outline-variant flex justify-between items-center">
 <h3 class="font-headline-sm text-headline-sm text-on-surface">Daftar Laporan Terkini</h3>
 <div class="flex gap-sm">
-<button class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Filter</button>
-<button class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Ekspor PDF</button>
+<button data-action="filter" class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Filter</button>
+<button data-action="export-pdf" class="px-md py-xs border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">Ekspor PDF</button>
 </div>
 </div>
 <div class="overflow-x-auto">
