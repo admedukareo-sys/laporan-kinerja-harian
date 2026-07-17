@@ -5,9 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>KinerjaKu - Dashboard Personal Pegawai</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -77,6 +75,15 @@
                         "base": "4px",
                         "xs": "4px",
                         "margin": "32px"
+                    },
+                    "fontSize": {
+                        "display-lg": ["2rem", { "lineHeight": "2.5rem", "fontWeight": "700" }],
+                        "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "fontWeight": "700" }],
+                        "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "fontWeight": "700" }],
+                        "body-lg": ["1.125rem", { "lineHeight": "1.75rem" }],
+                        "body-md": ["1rem", { "lineHeight": "1.5rem" }],
+                        "body-sm": ["0.875rem", { "lineHeight": "1.25rem" }],
+                        "label-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" }]
                     },
                     "fontFamily": {
                         "body-lg": ["Inter"],
