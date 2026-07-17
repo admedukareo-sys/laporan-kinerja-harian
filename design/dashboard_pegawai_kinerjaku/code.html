@@ -271,7 +271,7 @@
 <div class="absolute -left-12 -top-12 w-32 h-32 bg-primary-container rounded-full blur-2xl"></div>
 </div>
 <!-- Laporan Terkini Table Card -->
-<div class="col-span-12 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div id="report-card" class="col-span-12 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
 <div class="p-lg border-b border-outline-variant flex justify-between items-center">
 <h3 class="font-headline-sm text-headline-sm text-on-surface">Daftar Laporan Terkini</h3>
 <div class="flex gap-sm">
@@ -290,8 +290,8 @@
 <th class="p-lg font-label-md text-outline uppercase tracking-wider">Aksi</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-outline-variant">
-<tr class="hover:bg-primary-fixed/5 transition-colors">
+<tbody class="divide-y divide-outline-variant" id="report-tbody">
+<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Integrasi API Gateway Payment" data-category="Development" data-time="2 jam yang lalu" data-status="Menunggu" data-badge="bg-[#FEF3C7] text-[#92400E]">
 <td class="p-lg font-body-md text-on-surface font-semibold">Integrasi API Gateway Payment</td>
 <td class="p-lg font-body-md text-on-surface-variant">Development</td>
 <td class="p-lg font-body-md text-on-surface-variant">2 jam yang lalu</td>
@@ -299,10 +299,10 @@
 <span class="bg-[#FEF3C7] text-[#92400E] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Menunggu</span>
 </td>
 <td class="p-lg">
-<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
 </td>
 </tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors">
+<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Dokumentasi System Architecture" data-category="Technical Writing" data-time="Kemarin, 16:30" data-status="Diterima" data-badge="bg-[#D1FAE5] text-[#065F46]">
 <td class="p-lg font-body-md text-on-surface font-semibold">Dokumentasi System Architecture</td>
 <td class="p-lg font-body-md text-on-surface-variant">Technical Writing</td>
 <td class="p-lg font-body-md text-on-surface-variant">Kemarin, 16:30</td>
@@ -310,10 +310,10 @@
 <span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
 </td>
 <td class="p-lg">
-<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
 </td>
 </tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors">
+<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Uji Coba Modul HRIS Baru" data-category="QA Testing" data-time="18 Okt 2024" data-status="Diterima" data-badge="bg-[#D1FAE5] text-[#065F46]">
 <td class="p-lg font-body-md text-on-surface font-semibold">Uji Coba Modul HRIS Baru</td>
 <td class="p-lg font-body-md text-on-surface-variant">QA Testing</td>
 <td class="p-lg font-body-md text-on-surface-variant">18 Okt 2024</td>
@@ -321,10 +321,10 @@
 <span class="bg-[#D1FAE5] text-[#065F46] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Diterima</span>
 </td>
 <td class="p-lg">
-<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
 </td>
 </tr>
-<tr class="hover:bg-primary-fixed/5 transition-colors">
+<tr class="hover:bg-primary-fixed/5 transition-colors" data-title="Refactoring Database Migrations" data-category="DevOps" data-time="17 Okt 2024" data-status="Direvisi" data-badge="bg-[#DBEAFE] text-[#1E40AF]">
 <td class="p-lg font-body-md text-on-surface font-semibold">Refactoring Database Migrations</td>
 <td class="p-lg font-body-md text-on-surface-variant">DevOps</td>
 <td class="p-lg font-body-md text-on-surface-variant">17 Okt 2024</td>
@@ -332,14 +332,14 @@
 <span class="bg-[#DBEAFE] text-[#1E40AF] px-sm py-xs rounded-full text-[11px] font-bold uppercase tracking-wide">Direvisi</span>
 </td>
 <td class="p-lg">
-<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
+<button data-action="view-report" class="text-primary hover:text-primary-container"><span class="material-symbols-outlined">visibility</span></button>
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="p-md bg-surface-container-lowest border-t border-outline-variant flex justify-center">
-<button class="text-primary font-label-md flex items-center gap-xs hover:underline">
+<button data-action="toggle-history" class="text-primary font-label-md flex items-center gap-xs hover:underline">
                             Lihat Semua Riwayat Laporan <span class="material-symbols-outlined text-[16px]">expand_more</span>
 </button>
 </div>
